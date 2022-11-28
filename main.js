@@ -25,6 +25,7 @@ const createWindow = () => {
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
+        resizable: false
     })
 
     const mainMenu = Menu.buildFromTemplate(menu);
