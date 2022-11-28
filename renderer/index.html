@@ -12,12 +12,21 @@
 </head>
 
 <body>
-    <div id="fileList" class="columns">
-        
+    <div id="config" class="card">
+        <footer class="card-footer">
+            <a id="speedChangeBtn" class="card-footer-item">1.5 speed</a>
+        </footer>
+    </div>
+
+    <div class="panel is-primary">
+        <p class="panel-heading has-text-centered">
+            Files
+        </p>
+        <div id="fileList"></div>
     </div>
     <div id="nav" class="columns is-flex is-vcentered">
         <button class="button is-primary column">&lt;</button>
-        <button class="button is-primary is-large is-outlined column">▷</button>
+        <button class="button is-primary is-large is-outlined column" id="playButton">▷</button>
         <button class="button is-primary column">&gt;</button>
     </div>
 </body>
