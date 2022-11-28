@@ -1,0 +1,24 @@
+{
+  "name": "music-player",
+  "version": "1.0.0",
+  "description": "Electron app for playing music.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [
+    "electron",
+    "javascript",
+    "nodejs"
+  ],
+  "author": "LucasHazardous",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^21.3.1"
+  },
+  "dependencies": {
+    "bulma": "^0.9.4",
+    "electron-reload": "^2.0.0-alpha.1"
+  }
+}
