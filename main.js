@@ -82,6 +82,3 @@ ipcMain.on("readFile", (e, data) => {
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
-
-if (isDev)
-    require('electron-reload')(__dirname)
