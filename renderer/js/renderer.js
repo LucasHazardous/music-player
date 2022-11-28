@@ -1,46 +1,63 @@
-const fileList = document.getElementById("fileList")
+const fileListHolder = document.getElementById("fileListHolder")
 const playButton = document.getElementById("playButton")
 const speedChangeBtn = document.getElementById("speedChangeBtn")
 const audioElement = document.getElementById("audioElement")
 const loopBtn = document.getElementById("loopBtn")
 
+const leftBtn = document.getElementById("leftBtn")
+const rightBtn = document.getElementById("rightBtn")
+
 let fastPlaybackRate = false
 let playing = false
 let loop = false
+let fileList = []
+let currentIndex = 0
 
 ipcRenderer.on("refresh", (data) => {
-    fileList.innerHTML = ""
+    fileListHolder.innerHTML = ""
+    fileList = data.fileList
 
-    data.fileList.forEach(file => {
+    for (const [i, file] of fileList.entries()) {
         const fileElement = document.createElement("a")
         fileElement.classList.add(...["panel-block", "is-active"])
         fileElement.innerText = file
 
         fileElement.addEventListener("click", () => {
-            ipcRenderer.send("readFile", {
-                file
-            })
+            currentIndex = i
 
-            fileList.childNodes.forEach(child => {
-                if (child.innerText == undefined) {} else if (child.innerText != file)
-                    child.classList.remove("has-background-primary-light")
-                else child.classList.add("has-background-primary-light")
-            })
+            playFile(file)
+
+            lightUpListElement(file)
         })
 
-        fileList.appendChild(fileElement)
-    })
+        fileListHolder.appendChild(fileElement)
+    }
 })
+
+function playFile(file) {
+    ipcRenderer.send("readFile", {
+        file
+    })
+}
+
+function lightUpListElement(file) {
+    fileListHolder.childNodes.forEach(child => {
+        if (child.innerText != file)
+            child.classList.remove("has-background-primary-light")
+        else child.classList.add("has-background-primary-light")
+    })
+}
 
 ipcRenderer.on("audioData", (data) => {
     const blob = new Blob([data.buffer], {
         type: "audio/webm"
-    });
-    const url = window.URL.createObjectURL(blob);
+    })
+    const url = window.URL.createObjectURL(blob)
     audioElement.setAttribute("src", url)
     audioElement.load()
 
     if (fastPlaybackRate) audioElement.playbackRate = 1.5
+    playing = false
     playPauseAction()
     if (loop) loopChange()
 })
@@ -79,3 +96,18 @@ function loopChange() {
     else
         loopBtn.classList.remove("has-background-primary-light")
 }
+
+leftBtn.addEventListener("click", () => {
+    if (--currentIndex < 0) currentIndex = fileList.length - 1
+    const file = fileList[currentIndex]
+    playFile(file)
+    lightUpListElement(file)
+})
+
+rightBtn.addEventListener("click", () => {
+    currentIndex++
+    currentIndex %= fileList.length
+    const file = fileList[currentIndex]
+    playFile(file)
+    lightUpListElement(file)
+})
