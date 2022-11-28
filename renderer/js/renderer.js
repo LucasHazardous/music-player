@@ -35,6 +35,8 @@ ipcRenderer.on("refresh", (data) => {
 })
 
 function playFile(file) {
+    URL.revokeObjectURL(audioElement.getAttribute("src"))
+
     ipcRenderer.send("readFile", {
         file
     })
