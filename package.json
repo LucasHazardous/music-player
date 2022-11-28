@@ -9,6 +9,9 @@
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
+  "build": {
+    "appId": "lucas.hazardous.musicplayer"
+  },
   "keywords": [
     "electron",
     "javascript",
@@ -22,7 +25,8 @@
     "@electron-forge/maker-rpm": "^6.0.3",
     "@electron-forge/maker-squirrel": "^6.0.3",
     "@electron-forge/maker-zip": "^6.0.3",
-    "electron": "^21.3.1"
+    "electron": "^6.1.12",
+    "electron-builder": "^22.10.3"
   },
   "dependencies": {
     "bulma": "^0.9.4",
