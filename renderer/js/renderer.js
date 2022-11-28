@@ -2,8 +2,11 @@ const fileList = document.getElementById("fileList")
 const playButton = document.getElementById("playButton")
 const speedChangeBtn = document.getElementById("speedChangeBtn")
 const audioElement = document.getElementById("audioElement")
+const loopBtn = document.getElementById("loopBtn")
+
 let fastPlaybackRate = false
 let playing = false
+let loop = false
 
 ipcRenderer.on("refresh", (data) => {
     fileList.innerHTML = ""
@@ -36,8 +39,10 @@ ipcRenderer.on("audioData", (data) => {
     const url = window.URL.createObjectURL(blob);
     audioElement.setAttribute("src", url)
     audioElement.load()
+
     if (fastPlaybackRate) audioElement.playbackRate = 1.5
     playPauseAction()
+    if (loop) loopChange()
 })
 
 speedChangeBtn.addEventListener("click", () => {
@@ -53,6 +58,8 @@ speedChangeBtn.addEventListener("click", () => {
 
 playButton.addEventListener("click", playPauseAction)
 
+loopBtn.addEventListener("click", loopChange)
+
 function playPauseAction() {
     playing = !playing
     if (playing) {
@@ -62,4 +69,13 @@ function playPauseAction() {
         playButton.innerText = "▷"
         audioElement.pause()
     }
+}
+
+function loopChange() {
+    loop = !loop
+    audioElement.loop = loop
+    if (loop)
+        loopBtn.classList.add("has-background-primary-light")
+    else
+        loopBtn.classList.remove("has-background-primary-light")
 }
