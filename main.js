@@ -32,7 +32,7 @@ const createWindow = () => {
 
     if (isDev) mainWindow.webContents.openDevTools()
 
-    mainWindow.loadFile(path.join(__dirname, "./renderer/index.html"))
+    mainWindow.loadFile(path.join(__dirname, "./renderer/index.html")).then(loadFiles)
 }
 
 app.whenReady().then(() => {
