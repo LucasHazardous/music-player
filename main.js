@@ -68,7 +68,6 @@ function loadFiles() {
     mainWindow.webContents.send("refresh", {
         "fileList": availableFiles
     })
-    console.log(availableFiles)
 }
 
 ipcMain.on("readFile", (e, data) => {
@@ -83,4 +82,5 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
-require('electron-reload')(__dirname)
+if (isDev)
+    require('electron-reload')(__dirname)
