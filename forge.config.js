@@ -1,8 +1,7 @@
 module.exports = {
   packagerConfig: {},
   rebuildConfig: {},
-  makers: [
-    {
+  makers: [{
       name: '@electron-forge/maker-squirrel',
       config: {},
     },
@@ -19,4 +18,15 @@ module.exports = {
       config: {},
     },
   ],
+  publishers: [{
+    name: '@electron-forge/publisher-github',
+    config: {
+      repository: {
+        owner: 'LucasHazardous',
+        name: 'music-player',
+      },
+      prerelease: true,
+      draft: true,
+    },
+  }, ],
 };
