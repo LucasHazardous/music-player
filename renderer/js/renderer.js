@@ -1,9 +1,9 @@
 const fileList = document.getElementById("fileList")
 const playButton = document.getElementById("playButton")
 const speedChangeBtn = document.getElementById("speedChangeBtn")
+const audioElement = document.getElementById("audioElement")
 let fastPlaybackRate = false
 let playing = false
-let audio = new Audio()
 
 ipcRenderer.on("refresh", (data) => {
     fileList.innerHTML = ""
@@ -14,7 +14,6 @@ ipcRenderer.on("refresh", (data) => {
         fileElement.innerText = file
 
         fileElement.addEventListener("click", () => {
-            playPauseAction()
             ipcRenderer.send("readFile", {
                 file
             })
@@ -35,9 +34,9 @@ ipcRenderer.on("audioData", (data) => {
         type: "audio/webm"
     });
     const url = window.URL.createObjectURL(blob);
-    audio = new Audio(url)
-    audio.load()
-    if (fastPlaybackRate) audio.playbackRate = 1.5
+    audioElement.setAttribute("src", url)
+    audioElement.load()
+    if (fastPlaybackRate) audioElement.playbackRate = 1.5
     playPauseAction()
 })
 
@@ -45,10 +44,10 @@ speedChangeBtn.addEventListener("click", () => {
     fastPlaybackRate = !fastPlaybackRate
     if (fastPlaybackRate) {
         speedChangeBtn.classList.add("has-background-primary-light")
-        audio.playbackRate = 1.5
+        audioElement.playbackRate = 1.5
     } else {
         speedChangeBtn.classList.remove("has-background-primary-light")
-        audio.playbackRate = 1
+        audioElement.playbackRate = 1
     }
 })
 
@@ -58,9 +57,9 @@ function playPauseAction() {
     playing = !playing
     if (playing) {
         playButton.innerText = "〡〡"
-        audio.play()
+        audioElement.play()
     } else {
         playButton.innerText = "▷"
-        audio.pause()
+        audioElement.pause()
     }
 }
