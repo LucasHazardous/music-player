@@ -75,8 +75,6 @@ speedChangeBtn.addEventListener("click", () => {
 
 playButton.addEventListener("click", playPauseAction)
 
-loopBtn.addEventListener("click", loopChange)
-
 function playPauseAction() {
     playing = !playing
     if (playing) {
@@ -88,6 +86,8 @@ function playPauseAction() {
     }
 }
 
+loopBtn.addEventListener("click", loopChange)
+
 function loopChange() {
     loop = !loop
     audioElement.loop = loop
@@ -97,17 +97,25 @@ function loopChange() {
         loopBtn.classList.remove("has-background-primary-light")
 }
 
-leftBtn.addEventListener("click", () => {
+leftBtn.addEventListener("click", playPreviousFile)
+
+function playPreviousFile() {
     if (--currentIndex < 0) currentIndex = fileList.length - 1
     const file = fileList[currentIndex]
     playFile(file)
     lightUpListElement(file)
+}
+
+rightBtn.addEventListener("click", playNextFile)
+
+audioElement.addEventListener("pause", () => {
+    if (playing && !loop) playNextFile()
 })
 
-rightBtn.addEventListener("click", () => {
+function playNextFile() {
     currentIndex++
     currentIndex %= fileList.length
     const file = fileList[currentIndex]
     playFile(file)
     lightUpListElement(file)
-})
+}
