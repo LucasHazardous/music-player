@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  NODE_ENV: production
+
 jobs:
   release:
     runs-on: ${{ matrix.os }}
