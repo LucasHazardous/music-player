@@ -49,7 +49,8 @@ const menu = [{
     label: "File",
     submenu: [{
         label: "Refresh",
-        click: loadFiles
+        click: loadFiles,
+        accelerator: "CmdOrCtrl+R"
     }, {
         label: "Quit",
         click: app.quit,
