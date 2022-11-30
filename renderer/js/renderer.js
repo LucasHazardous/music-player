@@ -7,6 +7,11 @@ const loopBtn = document.getElementById("loopBtn")
 const leftBtn = document.getElementById("leftBtn")
 const rightBtn = document.getElementById("rightBtn")
 
+const downloadBtn = document.getElementById("downloadBtn")
+const downloadField = document.getElementById("downloadField")
+const downloadNotification = document.getElementById("downloadNotification")
+const hideNotificationBtn = document.getElementById("hideNotificationBtn")
+
 let fastPlaybackRate = false
 let playing = false
 let loop = false
@@ -121,3 +126,17 @@ function playNextFile() {
     playFile(file)
     lightUpListElement(file)
 }
+
+downloadBtn.addEventListener("click", downloadFile)
+
+function downloadFile() {
+    ipcRenderer.send("downloadFile", {
+        url: downloadField.value
+    })
+}
+
+ipcRenderer.on("fileDownloaded", () => {
+    downloadNotification.classList.remove("is-hidden");
+})
+
+hideNotificationBtn.addEventListener("click", () => downloadNotification.classList.add("is-hidden"))
