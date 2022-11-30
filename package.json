@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "bulma": "^0.9.4",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "yt-dlp-wrap": "^2.3.11"
   }
 }
