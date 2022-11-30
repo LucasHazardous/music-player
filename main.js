@@ -24,7 +24,7 @@ else
 const targetPath = path.join(os.homedir(), "music-player")
 const availableFiles = []
 
-const isDev = process.env.NODE_ENV !== "production"
+const isDev = process.env.NODE_ENV === "dev"
 
 let mainWindow;
 
