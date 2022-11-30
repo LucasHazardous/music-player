@@ -12,6 +12,8 @@ const downloadField = document.getElementById("downloadField")
 const downloadNotification = document.getElementById("downloadNotification")
 const hideNotificationBtn = document.getElementById("hideNotificationBtn")
 
+const volumeChanger = document.getElementById("volumeChanger")
+
 let fastPlaybackRate = false
 let playing = false
 let loop = false
@@ -140,3 +142,12 @@ ipcRenderer.on("fileDownloaded", () => {
 })
 
 hideNotificationBtn.addEventListener("click", () => downloadNotification.classList.add("is-hidden"))
+
+volumeChanger.addEventListener("click", (e) => {
+    const rect = e.target.getBoundingClientRect()
+    const x = e.clientX - rect.left
+
+    const volume = x / volumeChanger.clientWidth
+    audioElement.volume = volume
+    volumeChanger.value = volume * 100
+})
