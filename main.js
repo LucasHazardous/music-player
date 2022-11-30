@@ -10,6 +10,17 @@ const {
 const os = require("os")
 const fs = require("fs")
 
+const ytdlpWrap = require('yt-dlp-wrap').default
+const ytdlpExecutablePath = path.join(__dirname, "yt-dlp.exe")
+let ytplpExecutableWrap;
+
+if (!fs.existsSync(ytdlpExecutablePath))
+    ytdlpWrap.downloadFromGithub()
+    .then(() => ytplpExecutableWrap = new ytdlpWrap(ytdlpExecutablePath))
+    .catch(err => console.log(err))
+else
+    ytplpExecutableWrap = new ytdlpWrap(ytdlpExecutablePath)
+
 const targetPath = path.join(os.homedir(), "music-player")
 const availableFiles = []
 
@@ -79,6 +90,22 @@ ipcMain.on("readFile", (e, data) => {
     mainWindow.webContents.send("audioData", {
         "buffer": buffer
     })
+})
+
+ipcMain.on("downloadFile", async (e, data) => {
+    ytplpExecutableWrap
+        .exec([
+            "-f",
+            "ba",
+            data.url,
+            "-P",
+            targetPath
+        ])
+        .on('error', (err) => console.log(err))
+        .on('close', () => {
+            mainWindow.webContents.send("fileDownloaded")
+            loadFiles()
+        })
 })
 
 app.on('window-all-closed', () => {
