@@ -27,6 +27,7 @@ const availableFiles = []
 const isDev = process.env.NODE_ENV === "dev"
 
 let mainWindow;
+const gotTheLock = app.requestSingleInstanceLock()
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({
@@ -48,13 +49,24 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, "./renderer/index.html")).then(loadFiles)
 }
 
-app.whenReady().then(() => {
-    createWindow()
-
-    app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+if (!gotTheLock) {
+    app.quit()
+} else {
+    app.on('second-instance', (e, cmd, dir) => {
+        if (mainWindow) {
+            if (mainWindow.isMinimized()) mainWindow.restore()
+            mainWindow.focus()
+        }
     })
-})
+
+    app.whenReady().then(() => {
+        createWindow()
+
+        app.on('activate', () => {
+            if (BrowserWindow.getAllWindows().length === 0) createWindow()
+        })
+    })
+}
 
 const menu = [{
     label: "File",
