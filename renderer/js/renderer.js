@@ -17,28 +17,41 @@ const volumeChanger = document.getElementById("volumeChanger")
 let fastPlaybackRate = false
 let playing = false
 let loop = false
-let fileList = []
-let currentIndex = 0
+let fileElementList = []
+let currentIndex = -1
+let previousSelectedIndex = -1
 
 ipcRenderer.on("refresh", (data) => {
-    fileListHolder.innerHTML = ""
-    fileList = data.fileList
+    let currentName = null
+    if (currentIndex != -1)
+        currentName = fileElementList[currentIndex].innerText
+    currentIndex = -1
 
-    for (const [i, file] of fileList.entries()) {
+    fileElementList = []
+    fileListHolder.innerHTML = ""
+
+    for (const [i, file] of data.fileList.entries()) {
+        if (file == currentName) currentIndex = i
+
         const fileElement = document.createElement("a")
         fileElement.classList.add(...["panel-block", "is-active"])
         fileElement.innerText = file
 
         fileElement.addEventListener("click", () => {
+            previousSelectedIndex = currentIndex
             currentIndex = i
 
             playFile(file)
 
-            lightUpListElement(file)
+            lightUpListElement()
         })
 
         fileListHolder.appendChild(fileElement)
+        fileElementList.push(fileElement)
     }
+
+    if (fileElementList[currentIndex] != undefined)
+        lightUpListElement()
 })
 
 function playFile(file) {
@@ -49,12 +62,10 @@ function playFile(file) {
     })
 }
 
-function lightUpListElement(file) {
-    fileListHolder.childNodes.forEach(child => {
-        if (child.innerText != file)
-            child.classList.remove("has-background-primary-light")
-        else child.classList.add("has-background-primary-light")
-    })
+function lightUpListElement() {
+    if (fileElementList[previousSelectedIndex] != undefined)
+        fileElementList[previousSelectedIndex].classList.remove("has-background-primary-light")
+    fileElementList[currentIndex].classList.add("has-background-primary-light")
 }
 
 ipcRenderer.on("audioData", (data) => {
@@ -109,10 +120,10 @@ function loopChange() {
 leftBtn.addEventListener("click", playPreviousFile)
 
 function playPreviousFile() {
-    if (--currentIndex < 0) currentIndex = fileList.length - 1
-    const file = fileList[currentIndex]
-    playFile(file)
-    lightUpListElement(file)
+    previousSelectedIndex = currentIndex
+    if (--currentIndex < 0) currentIndex = fileElementList.length - 1
+    playFile(fileElementList[currentIndex].innerText)
+    lightUpListElement()
 }
 
 rightBtn.addEventListener("click", playNextFile)
@@ -122,11 +133,11 @@ audioElement.addEventListener("pause", () => {
 })
 
 function playNextFile() {
+    previousSelectedIndex = currentIndex
     currentIndex++
-    currentIndex %= fileList.length
-    const file = fileList[currentIndex]
-    playFile(file)
-    lightUpListElement(file)
+    currentIndex %= fileElementList.length
+    playFile(fileElementList[currentIndex].innerText)
+    lightUpListElement()
 }
 
 downloadBtn.addEventListener("click", downloadFile)
