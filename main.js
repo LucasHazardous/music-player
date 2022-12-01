@@ -71,15 +71,25 @@ if (!gotTheLock) {
 const menu = [{
     label: "File",
     submenu: [{
-        label: "Refresh",
-        click: loadFiles,
-        accelerator: "CmdOrCtrl+R"
-    }, {
-        label: "Quit",
-        click: app.quit,
-        accelerator: "CmdOrCtrl+W"
-    }]
+            label: "Change theme",
+            click: changeTheme,
+            accelerator: "CmdOrCtrl+T"
+        },
+        {
+            label: "Refresh",
+            click: loadFiles,
+            accelerator: "CmdOrCtrl+R"
+        }, {
+            label: "Quit",
+            click: app.quit,
+            accelerator: "CmdOrCtrl+W"
+        }
+    ]
 }]
+
+function changeTheme() {
+    mainWindow.webContents.send("changeTheme")
+}
 
 function loadFiles() {
     if (!fs.existsSync(targetPath)) {

@@ -151,3 +151,8 @@ volumeChanger.addEventListener("click", (e) => {
     audioElement.volume = volume
     volumeChanger.value = volume * 100
 })
+
+ipcRenderer.on("changeTheme", () => {
+    document.querySelector("html").classList.toggle("dark")
+    document.querySelectorAll(".panel-block").forEach(paragraph => paragraph.classList.toggle("dark"))
+})
