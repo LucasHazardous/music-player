@@ -154,9 +154,11 @@ const hideNotificationBtn = document.getElementById("hideNotificationBtn")
 downloadBtn.addEventListener("click", downloadFile)
 
 function downloadFile() {
-    ipcRenderer.send("downloadFile", {
-        url: downloadField.value
-    })
+    downloadField.value = downloadField.value.trim()
+    if (downloadField.value != "")
+        ipcRenderer.send("downloadFile", {
+            url: downloadField.value
+        })
 }
 
 ipcRenderer.on("fileDownloaded", () => {
