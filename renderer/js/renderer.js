@@ -1,18 +1,15 @@
-const fileListHolder = document.getElementById("fileListHolder")
-const playButton = document.getElementById("playButton")
-const speedChangeBtn = document.getElementById("speedChangeBtn")
 const audioElement = document.getElementById("audioElement")
-const loopBtn = document.getElementById("loopBtn")
 
-const leftBtn = document.getElementById("leftBtn")
-const rightBtn = document.getElementById("rightBtn")
-
-const downloadBtn = document.getElementById("downloadBtn")
-const downloadField = document.getElementById("downloadField")
-const downloadNotification = document.getElementById("downloadNotification")
-const hideNotificationBtn = document.getElementById("hideNotificationBtn")
+const fileListHolder = document.getElementById("fileListHolder")
 
 const volumeChanger = document.getElementById("volumeChanger")
+
+const speedChangeBtn = document.getElementById("speedChangeBtn")
+const loopBtn = document.getElementById("loopBtn")
+
+const playButton = document.getElementById("playButton")
+const leftBtn = document.getElementById("leftBtn")
+const rightBtn = document.getElementById("rightBtn")
 
 let fastPlaybackRate = false
 let playing = false
@@ -43,7 +40,7 @@ ipcRenderer.on("refresh", (data) => {
 
             playFile(file)
 
-            lightUpListElement()
+            lightUpCurrentElement()
         })
 
         fileListHolder.appendChild(fileElement)
@@ -51,7 +48,7 @@ ipcRenderer.on("refresh", (data) => {
     }
 
     if (fileElementList[currentIndex] != undefined)
-        lightUpListElement()
+        lightUpCurrentElement()
 })
 
 function playFile(file) {
@@ -62,7 +59,7 @@ function playFile(file) {
     })
 }
 
-function lightUpListElement() {
+function lightUpCurrentElement() {
     if (fileElementList[previousSelectedIndex] != undefined)
         fileElementList[previousSelectedIndex].classList.remove("has-background-primary-light")
     fileElementList[currentIndex].classList.add("has-background-primary-light")
@@ -117,42 +114,20 @@ function loopChange() {
         loopBtn.classList.remove("has-background-primary-light")
 }
 
-leftBtn.addEventListener("click", playPreviousFile)
+leftBtn.addEventListener("click", () => selectFile(currentIndex - 1 < 0 ? fileElementList.length - 1 : currentIndex - 1))
 
-function playPreviousFile() {
-    previousSelectedIndex = currentIndex
-    if (--currentIndex < 0) currentIndex = fileElementList.length - 1
-    playFile(fileElementList[currentIndex].innerText)
-    lightUpListElement()
-}
-
-rightBtn.addEventListener("click", playNextFile)
+rightBtn.addEventListener("click", () => selectFile((currentIndex + 1) % fileElementList.length))
 
 audioElement.addEventListener("pause", () => {
-    if (playing && !loop) playNextFile()
+    if (playing && !loop) selectFile((currentIndex + 1) % fileElementList.length)
 })
 
-function playNextFile() {
+function selectFile(target) {
     previousSelectedIndex = currentIndex
-    currentIndex++
-    currentIndex %= fileElementList.length
+    currentIndex = target
     playFile(fileElementList[currentIndex].innerText)
-    lightUpListElement()
+    lightUpCurrentElement()
 }
-
-downloadBtn.addEventListener("click", downloadFile)
-
-function downloadFile() {
-    ipcRenderer.send("downloadFile", {
-        url: downloadField.value
-    })
-}
-
-ipcRenderer.on("fileDownloaded", () => {
-    downloadNotification.classList.remove("is-hidden");
-})
-
-hideNotificationBtn.addEventListener("click", () => downloadNotification.classList.add("is-hidden"))
 
 volumeChanger.addEventListener("click", (e) => {
     const rect = e.target.getBoundingClientRect()
@@ -167,3 +142,22 @@ ipcRenderer.on("changeTheme", () => {
     document.querySelector("html").classList.toggle("dark")
     document.querySelectorAll(".panel-block").forEach(paragraph => paragraph.classList.toggle("dark"))
 })
+
+const downloadBtn = document.getElementById("downloadBtn")
+const downloadField = document.getElementById("downloadField")
+const downloadNotification = document.getElementById("downloadNotification")
+const hideNotificationBtn = document.getElementById("hideNotificationBtn")
+
+downloadBtn.addEventListener("click", downloadFile)
+
+function downloadFile() {
+    ipcRenderer.send("downloadFile", {
+        url: downloadField.value
+    })
+}
+
+ipcRenderer.on("fileDownloaded", () => {
+    downloadNotification.classList.remove("is-hidden")
+})
+
+hideNotificationBtn.addEventListener("click", () => downloadNotification.classList.add("is-hidden"))
