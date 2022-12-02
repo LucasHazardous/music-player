@@ -78,7 +78,6 @@ ipcRenderer.on("audioData", (data) => {
     if (fastPlaybackRate) audioElement.playbackRate = 1.5
     playing = false
     playPauseAction()
-    if (loop) loopChange()
 
     if (fileElementList[currentIndex] != undefined)
         lightUpCurrentElement()
