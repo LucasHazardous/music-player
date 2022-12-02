@@ -159,6 +159,7 @@ function downloadFile() {
         ipcRenderer.send("downloadFile", {
             url: downloadField.value
         })
+    downloadField.value = ""
 }
 
 ipcRenderer.on("fileDownloaded", () => {
