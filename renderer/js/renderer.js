@@ -7,6 +7,8 @@ const volumeChanger = document.getElementById("volumeChanger")
 const speedChangeBtn = document.getElementById("speedChangeBtn")
 const loopBtn = document.getElementById("loopBtn")
 
+const currentNameHolder = document.getElementById("currentNameHolder")
+
 const playButton = document.getElementById("playButton")
 const leftBtn = document.getElementById("leftBtn")
 const rightBtn = document.getElementById("rightBtn")
@@ -39,8 +41,6 @@ ipcRenderer.on("refresh", (data) => {
             currentIndex = i
 
             playFile(file)
-
-            lightUpCurrentElement()
         })
 
         fileListHolder.appendChild(fileElement)
@@ -53,6 +53,8 @@ ipcRenderer.on("refresh", (data) => {
 
 function playFile(file) {
     URL.revokeObjectURL(audioElement.getAttribute("src"))
+
+    currentNameHolder.innerText = file.replace(new RegExp(/(\.[a-zA-Z0-9]+)|(\[.+\])/, "g"), "")
 
     ipcRenderer.send("readFile", {
         file
@@ -77,6 +79,9 @@ ipcRenderer.on("audioData", (data) => {
     playing = false
     playPauseAction()
     if (loop) loopChange()
+
+    if (fileElementList[currentIndex] != undefined)
+        lightUpCurrentElement()
 })
 
 speedChangeBtn.addEventListener("click", () => {
@@ -126,7 +131,6 @@ function selectFile(target) {
     previousSelectedIndex = currentIndex
     currentIndex = target
     playFile(fileElementList[currentIndex].innerText)
-    lightUpCurrentElement()
 }
 
 volumeChanger.addEventListener("click", (e) => {
