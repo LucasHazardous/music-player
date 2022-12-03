@@ -54,7 +54,7 @@ ipcRenderer.on("refresh", (data) => {
 function playFile(file) {
     URL.revokeObjectURL(audioElement.getAttribute("src"))
 
-    currentNameHolder.innerText = file.replace(new RegExp(/(\.[a-zA-Z0-9]+)|(\[.+\])/, "g"), "")
+    currentNameHolder.innerText = file.replace(new RegExp(/\[.+\]\.[a-zA-Z0-9]+/, "g"), "")
 
     ipcRenderer.send("readFile", {
         file
