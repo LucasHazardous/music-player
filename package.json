@@ -8,7 +8,7 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-builder --mac --win --linux -p onTag"
+    "publish": "electron-builder --win -p always"
   },
   "build": {
     "publish": [
