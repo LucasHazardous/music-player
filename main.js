@@ -130,16 +130,14 @@ function changeTheme() {
 }
 
 function loadFiles() {
-    if (!fs.existsSync(targetPath)) {
+    if (!fs.existsSync(targetPath))
         fs.mkdirSync(targetPath)
-    }
 
     availableFiles.length = 0
     fs.readdirSync(targetPath).forEach(file => {
-        availableFiles.push(file)
+        if (file != "yt-dlp.exe")
+            availableFiles.push(file)
     })
-
-    availableFiles.splice(availableFiles.indexOf("yt-dlp.exe"), 1)
 
     mainWindow.webContents.send("refresh", {
         "fileList": availableFiles
