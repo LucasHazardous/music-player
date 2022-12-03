@@ -92,13 +92,43 @@ const menu = [{
             label: "Refresh",
             click: loadFiles,
             accelerator: "CmdOrCtrl+R"
-        }, {
+        },
+        {
+            label: "Check for updates",
+            click: () => autoUpdater.checkForUpdatesAndNotify()
+        },
+        {
             label: "Quit",
             click: app.quit,
             accelerator: "CmdOrCtrl+W"
         }
     ]
 }]
+
+function sendStatusToWindow(text) {
+    mainWindow.webContents.send("updateMsg", {
+        text
+    })
+}
+
+autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow("Checking for update...")
+})
+autoUpdater.on('update-available', (info) => {
+    sendStatusToWindow("Update available.")
+})
+autoUpdater.on('update-not-available', (info) => {
+    sendStatusToWindow("Update not available.")
+})
+autoUpdater.on('error', (err) => {
+    sendStatusToWindow("Error in auto-updater.")
+})
+autoUpdater.on('download-progress', (progress) => {
+    sendStatusToWindow(`Downloaded ${Math.floor(progress.percent)}%`)
+})
+autoUpdater.on('update-downloaded', (info) => {
+    sendStatusToWindow("Update downloaded.")
+})
 
 function changeTheme() {
     mainWindow.webContents.send("changeTheme")
