@@ -167,3 +167,10 @@ ipcRenderer.on("fileDownloaded", () => {
 })
 
 hideNotificationBtn.addEventListener("click", () => downloadNotification.classList.add("is-hidden"))
+
+const updateInfo = document.getElementById("updateInfo")
+
+ipcRenderer.on("updateMsg", (data) => {
+    updateInfo.classList.remove("is-hidden")
+    updateInfo.innerText = data.text
+})
