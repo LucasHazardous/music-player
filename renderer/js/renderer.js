@@ -30,7 +30,6 @@ ipcRenderer.on("refresh", (data) => {
     fileListHolder.innerHTML = ""
 
     for (const [i, file] of data.fileList.entries()) {
-        if (file === "yt-dlp.exe") continue
         if (file == currentName) currentIndex = i
 
         const fileElement = document.createElement("a")
