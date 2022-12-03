@@ -11,23 +11,24 @@ const {
 const os = require("os")
 const fs = require("fs")
 
+const targetPath = path.join(os.homedir(), "music-player")
+
 const ytdlpWrap = require('yt-dlp-wrap').default
-const ytdlpExecutablePath = path.join(__dirname, "yt-dlp.exe")
-let ytplpExecutableWrap;
+const ytdlpExecutablePath = path.join(targetPath, "yt-dlp.exe")
+let ytplpExecutableWrap
 
 if (!fs.existsSync(ytdlpExecutablePath))
-    ytdlpWrap.downloadFromGithub()
+    ytdlpWrap.downloadFromGithub(ytdlpExecutablePath)
     .then(() => ytplpExecutableWrap = new ytdlpWrap(ytdlpExecutablePath))
     .catch(err => console.log(err))
 else
     ytplpExecutableWrap = new ytdlpWrap(ytdlpExecutablePath)
 
-const targetPath = path.join(os.homedir(), "music-player")
 const availableFiles = []
 
 const isDev = process.env.NODE_ENV === "dev"
 
-let mainWindow;
+let mainWindow
 const gotTheLock = app.requestSingleInstanceLock()
 
 const {
@@ -46,8 +47,8 @@ const createWindow = () => {
         resizable: false
     })
 
-    const mainMenu = Menu.buildFromTemplate(menu);
-    Menu.setApplicationMenu(mainMenu);
+    const mainMenu = Menu.buildFromTemplate(menu)
+    Menu.setApplicationMenu(mainMenu)
 
     if (isDev) mainWindow.webContents.openDevTools()
 
@@ -65,13 +66,29 @@ if (!gotTheLock) {
     })
 
     app.whenReady().then(() => {
-        if (!isDev)
-            autoUpdater.checkForUpdatesAndNotify()
-
         createWindow()
 
         app.on('activate', () => {
             if (BrowserWindow.getAllWindows().length === 0) createWindow()
+        })
+
+        autoUpdater.on('checking-for-update', () => {
+            sendStatusToWindow("Checking for update...")
+        })
+        autoUpdater.on('update-available', (info) => {
+            sendStatusToWindow("Update available.")
+        })
+        autoUpdater.on('update-not-available', (info) => {
+            sendStatusToWindow("Update not available.")
+        })
+        autoUpdater.on('error', (err) => {
+            sendStatusToWindow("Error in auto-updater.")
+        })
+        autoUpdater.on('download-progress', (progress) => {
+            sendStatusToWindow(`Downloaded ${Math.floor(progress.percent)}%`)
+        })
+        autoUpdater.on('update-downloaded', (info) => {
+            sendStatusToWindow("Update downloaded.")
         })
     })
 }
@@ -110,25 +127,6 @@ function sendStatusToWindow(text) {
         text
     })
 }
-
-autoUpdater.on('checking-for-update', () => {
-    sendStatusToWindow("Checking for update...")
-})
-autoUpdater.on('update-available', (info) => {
-    sendStatusToWindow("Update available.")
-})
-autoUpdater.on('update-not-available', (info) => {
-    sendStatusToWindow("Update not available.")
-})
-autoUpdater.on('error', (err) => {
-    sendStatusToWindow("Error in auto-updater.")
-})
-autoUpdater.on('download-progress', (progress) => {
-    sendStatusToWindow(`Downloaded ${Math.floor(progress.percent)}%`)
-})
-autoUpdater.on('update-downloaded', (info) => {
-    sendStatusToWindow("Update downloaded.")
-})
 
 function changeTheme() {
     mainWindow.webContents.send("changeTheme")
