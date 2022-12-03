@@ -1,7 +1,8 @@
 const {
     app,
     BrowserWindow,
-    Menu
+    Menu,
+    shell
 } = require('electron')
 const path = require('path')
 const {
@@ -81,6 +82,11 @@ const menu = [{
             label: "Change theme",
             click: changeTheme,
             accelerator: "CmdOrCtrl+T"
+        },
+        {
+            label: "Files location",
+            click: () => shell.openPath(targetPath),
+            accelerator: "CmdOrCtrl+F"
         },
         {
             label: "Refresh",
