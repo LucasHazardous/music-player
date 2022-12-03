@@ -64,7 +64,8 @@ if (!gotTheLock) {
     })
 
     app.whenReady().then(() => {
-        autoUpdater.checkForUpdatesAndNotify()
+        if (!isDev)
+            autoUpdater.checkForUpdatesAndNotify()
 
         createWindow()
 
