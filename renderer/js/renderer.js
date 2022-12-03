@@ -23,7 +23,7 @@ let previousSelectedIndex = -1
 ipcRenderer.on("refresh", (data) => {
     let currentName = null
     if (currentIndex != -1)
-        currentName = fileElementList[currentIndex].innerText
+        currentName = fileElementList[currentIndex].innerHTML
     currentIndex = -1
 
     fileElementList = []
@@ -34,7 +34,7 @@ ipcRenderer.on("refresh", (data) => {
 
         const fileElement = document.createElement("a")
         fileElement.classList.add(...["panel-block", "is-active"])
-        fileElement.innerText = file
+        fileElement.innerHTML = file.replace(/~(?<=\s)\s~/, "&nbsp;")
 
         fileElement.addEventListener("click", () => {
             previousSelectedIndex = currentIndex
@@ -129,7 +129,7 @@ audioElement.addEventListener("pause", () => {
 function selectFile(target) {
     previousSelectedIndex = currentIndex
     currentIndex = target
-    playFile(fileElementList[currentIndex].innerText)
+    playFile(fileElementList[currentIndex].innerHTML)
 }
 
 volumeChanger.addEventListener("click", (e) => {
