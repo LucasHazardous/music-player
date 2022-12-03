@@ -29,6 +29,10 @@ const isDev = process.env.NODE_ENV === "dev"
 let mainWindow;
 const gotTheLock = app.requestSingleInstanceLock()
 
+const {
+    autoUpdater
+} = require("electron-updater")
+
 const createWindow = () => {
     mainWindow = new BrowserWindow({
         title: "Image Resizer",
@@ -60,6 +64,8 @@ if (!gotTheLock) {
     })
 
     app.whenReady().then(() => {
+        autoUpdater.checkForUpdatesAndNotify()
+
         createWindow()
 
         app.on('activate', () => {
