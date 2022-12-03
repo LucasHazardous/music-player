@@ -141,11 +141,6 @@ volumeChanger.addEventListener("click", (e) => {
     volumeChanger.value = volume * 100
 })
 
-ipcRenderer.on("changeTheme", () => {
-    document.querySelector("html").classList.toggle("dark")
-    document.querySelectorAll(".panel-block").forEach(paragraph => paragraph.classList.toggle("dark"))
-})
-
 const downloadBtn = document.getElementById("downloadBtn")
 const downloadField = document.getElementById("downloadField")
 const downloadNotification = document.getElementById("downloadNotification")
@@ -173,4 +168,10 @@ const updateInfo = document.getElementById("updateInfo")
 ipcRenderer.on("updateMsg", (data) => {
     updateInfo.classList.remove("is-hidden")
     updateInfo.innerText = data.text
+})
+
+ipcRenderer.on("changeTheme", () => {
+    document.querySelector("html").classList.toggle("dark")
+    document.querySelectorAll("a").forEach(paragraph => paragraph.classList.toggle("dark"))
+    updateInfo.classList.toggle("dark")
 })
