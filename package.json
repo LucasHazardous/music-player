@@ -1,12 +1,13 @@
 {
   "name": "music-player",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "Desktop Electron app for playing and downloading music.",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "publish": "electron-builder --win -p always"
+    "publish": "electron-builder --win -p always",
+    "build": "electron-builder --win"
   },
   "repository": {
     "type": "git",
