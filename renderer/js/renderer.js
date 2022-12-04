@@ -19,6 +19,7 @@ let loop = false
 let fileElementList = []
 let currentIndex = -1
 let previousSelectedIndex = -1
+let darkTheme = false
 
 ipcRenderer.on("refresh", (data) => {
     let currentName = null
@@ -34,6 +35,7 @@ ipcRenderer.on("refresh", (data) => {
 
         const fileElement = document.createElement("a")
         fileElement.classList.add(...["panel-block", "is-active"])
+        if (darkTheme) fileElement.classList.add("dark")
         fileElement.innerHTML = file.replace(/~(?<=\s)\s~/, "&nbsp;")
 
         fileElement.addEventListener("click", () => {
@@ -63,8 +65,9 @@ function playFile(file) {
 
 function lightUpCurrentElement() {
     if (fileElementList[previousSelectedIndex] != undefined)
-        fileElementList[previousSelectedIndex].classList.remove("has-background-primary-light")
-    fileElementList[currentIndex].classList.add("has-background-primary-light")
+        fileElementList[previousSelectedIndex].classList.remove(...["has-background-primary-light", "dark-background"])
+
+    fileElementList[currentIndex].classList.add(darkTheme ? "dark-background" : "has-background-primary-light")
 }
 
 ipcRenderer.on("audioData", (data) => {
@@ -171,7 +174,13 @@ ipcRenderer.on("updateMsg", (data) => {
 })
 
 ipcRenderer.on("changeTheme", () => {
+    darkTheme = !darkTheme
     document.querySelector("html").classList.toggle("dark")
     document.querySelectorAll("a").forEach(paragraph => paragraph.classList.toggle("dark"))
     updateInfo.classList.toggle("dark")
+
+    if (fileElementList[currentIndex] != undefined) {
+        previousSelectedIndex = currentIndex
+        lightUpCurrentElement()
+    }
 })
