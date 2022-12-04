@@ -24,7 +24,7 @@ let darkTheme = false
 ipcRenderer.on("refresh", (data) => {
     let currentName = null
     if (currentIndex != -1)
-        currentName = fileElementList[currentIndex].innerHTML
+        currentName = fileElementList[currentIndex].trueName
     currentIndex = -1
 
     fileElementList = []
@@ -36,7 +36,7 @@ ipcRenderer.on("refresh", (data) => {
         const fileElement = document.createElement("a")
         fileElement.classList.add(...["panel-block", "is-active"])
         if (darkTheme) fileElement.classList.add("dark")
-        fileElement.innerHTML = file.replace(/~(?<=\s)\s~/, "&nbsp;")
+        fileElement.innerText = file
 
         fileElement.addEventListener("click", () => {
             previousSelectedIndex = currentIndex
@@ -45,6 +45,7 @@ ipcRenderer.on("refresh", (data) => {
             playFile(file)
         })
 
+        fileElement.trueName = file
         fileListHolder.appendChild(fileElement)
         fileElementList.push(fileElement)
     }
@@ -132,7 +133,7 @@ audioElement.addEventListener("pause", () => {
 function selectFile(target) {
     previousSelectedIndex = currentIndex
     currentIndex = target
-    playFile(fileElementList[currentIndex].innerHTML)
+    playFile(fileElementList[currentIndex].trueName)
 }
 
 volumeChanger.addEventListener("click", (e) => {
