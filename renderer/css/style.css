@@ -33,6 +33,10 @@ body {
     background-color: black !important;
 }
 
+.card-footer-item {
+    color: hsl(171, 100%, 41%) !important;
+}
+
 sup {
     font-size: small !important;
 }
