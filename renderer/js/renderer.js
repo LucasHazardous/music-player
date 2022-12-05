@@ -136,14 +136,7 @@ function selectFile(target) {
     playFile(fileElementList[currentIndex].trueName)
 }
 
-volumeChanger.addEventListener("click", (e) => {
-    const rect = e.target.getBoundingClientRect()
-    const x = e.clientX - rect.left
-
-    const volume = x / volumeChanger.clientWidth
-    audioElement.volume = volume
-    volumeChanger.value = volume * 100
-})
+volumeChanger.addEventListener("change", () => audioElement.volume = volumeChanger.value / 100)
 
 const downloadBtn = document.getElementById("downloadBtn")
 const downloadField = document.getElementById("downloadField")
