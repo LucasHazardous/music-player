@@ -2,7 +2,8 @@ const {
     app,
     BrowserWindow,
     Menu,
-    shell
+    shell,
+    nativeTheme
 } = require('electron')
 const path = require('path')
 const {
@@ -27,6 +28,8 @@ const isDev = process.env.NODE_ENV === "dev"
 
 let mainWindow
 const gotTheLock = app.requestSingleInstanceLock()
+let darkMode = false
+nativeTheme.themeSource = "light"
 
 const {
     autoUpdater
@@ -126,6 +129,8 @@ function sendStatusToWindow(text) {
 }
 
 function changeTheme() {
+    darkMode = !darkMode
+    nativeTheme.themeSource = darkMode ? "dark" : "light"
     mainWindow.webContents.send("changeTheme")
 }
 
