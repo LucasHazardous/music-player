@@ -2,7 +2,8 @@ const {
     app,
     BrowserWindow,
     Menu,
-    shell
+    shell,
+    nativeTheme
 } = require('electron')
 const path = require('path')
 const {
@@ -27,6 +28,7 @@ const isDev = process.env.NODE_ENV === "dev"
 
 let mainWindow
 const gotTheLock = app.requestSingleInstanceLock()
+let darkMode = false
 
 const {
     autoUpdater
@@ -49,7 +51,10 @@ const createWindow = () => {
 
     if (isDev) mainWindow.webContents.openDevTools()
 
-    mainWindow.loadFile(path.join(__dirname, "./renderer/index.html")).then(loadFiles)
+    mainWindow.loadFile(path.join(__dirname, "./renderer/index.html")).then(loadFiles).then(() => {
+        if (nativeTheme.shouldUseDarkColors)
+            changeTheme()
+    })
 }
 
 if (!gotTheLock) {
@@ -126,6 +131,8 @@ function sendStatusToWindow(text) {
 }
 
 function changeTheme() {
+    darkMode = !darkMode
+    nativeTheme.themeSource = darkMode ? "dark" : "light"
     mainWindow.webContents.send("changeTheme")
 }
 
