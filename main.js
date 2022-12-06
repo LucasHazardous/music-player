@@ -43,7 +43,8 @@ const createWindow = () => {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true
         },
-        resizable: false
+        resizable: false,
+        icon: path.join(__dirname, "music-player.ico")
     })
 
     const mainMenu = Menu.buildFromTemplate(menu)
