@@ -12,6 +12,7 @@ const currentNameHolder = document.getElementById("currentNameHolder")
 const playButton = document.getElementById("playButton")
 const leftBtn = document.getElementById("leftBtn")
 const rightBtn = document.getElementById("rightBtn")
+const timeControl = document.getElementById("timeControl")
 
 let fastPlaybackRate = false
 let playing = false
@@ -137,6 +138,12 @@ function selectFile(target) {
 }
 
 volumeChanger.addEventListener("change", () => audioElement.volume = volumeChanger.value / 100)
+
+audioElement.addEventListener("timeupdate", () => {
+    timeControl.value = audioElement.currentTime / audioElement.duration * 100
+})
+
+timeControl.addEventListener("change", () => audioElement.currentTime = timeControl.value / 100 * audioElement.duration)
 
 const downloadBtn = document.getElementById("downloadBtn")
 const downloadField = document.getElementById("downloadField")
