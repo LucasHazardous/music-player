@@ -29,7 +29,6 @@ const isDev = process.env.NODE_ENV === "dev"
 let mainWindow
 const gotTheLock = app.requestSingleInstanceLock()
 let darkMode = false
-nativeTheme.themeSource = "light"
 
 const {
     autoUpdater
@@ -52,7 +51,11 @@ const createWindow = () => {
 
     if (isDev) mainWindow.webContents.openDevTools()
 
-    mainWindow.loadFile(path.join(__dirname, "./renderer/index.html")).then(loadFiles)
+    mainWindow.loadFile(path.join(__dirname, "./renderer/index.html")).then(loadFiles).then(() => {
+        console.log(nativeTheme.themeSource)
+        if (nativeTheme.shouldUseDarkColors)
+            changeTheme()
+    })
 }
 
 if (!gotTheLock) {
