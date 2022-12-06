@@ -140,25 +140,25 @@ volumeChanger.addEventListener("change", () => audioElement.volume = volumeChang
 
 const downloadBtn = document.getElementById("downloadBtn")
 const downloadField = document.getElementById("downloadField")
-const downloadNotification = document.getElementById("downloadNotification")
-const hideNotificationBtn = document.getElementById("hideNotificationBtn")
 
 downloadBtn.addEventListener("click", downloadFile)
 
 function downloadFile() {
     downloadField.value = downloadField.value.trim()
-    if (downloadField.value != "")
+    if (downloadField.value != "") {
         ipcRenderer.send("downloadFile", {
             url: downloadField.value
         })
+        downloadField.parentElement.classList.add("is-loading")
+        downloadField.disabled = true
+    }
     downloadField.value = ""
 }
 
 ipcRenderer.on("fileDownloaded", () => {
-    downloadNotification.classList.remove("is-hidden")
+    downloadField.parentElement.classList.remove("is-loading")
+    downloadField.disabled = false
 })
-
-hideNotificationBtn.addEventListener("click", () => downloadNotification.classList.add("is-hidden"))
 
 const updateInfo = document.getElementById("updateInfo")
 
