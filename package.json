@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "publish": "electron-builder --win -p always",
-    "build": "electron-builder --win"
+    "build": "electron-builder --win",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -31,11 +32,17 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^22.0.0",
-    "electron-builder": "^22.10.3"
+    "electron-builder": "^22.10.3",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.0"
   },
   "dependencies": {
     "bulma": "^0.9.4",
     "electron-updater": "^5.3.0",
     "yt-dlp-wrap": "^2.3.11"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
   }
 }
