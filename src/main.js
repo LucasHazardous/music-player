@@ -35,7 +35,7 @@ const createWindow = () => {
 			contextIsolation: true,
 		},
 		resizable: false,
-		icon: path.join(__dirname, "music-player.ico"),
+		icon: path.join(__dirname, "../build/icon.ico"),
 	});
 
 	const mainMenu = Menu.buildFromTemplate(menu);
