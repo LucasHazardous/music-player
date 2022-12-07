@@ -52,7 +52,7 @@ const createWindow = () => {
 
     if (isDev) mainWindow.webContents.openDevTools()
 
-    mainWindow.loadFile(path.join(__dirname, "./renderer/index.html")).then(loadFiles).then(() => {
+    mainWindow.loadFile(path.join(__dirname, "./public/pages/index.html")).then(loadFiles).then(() => {
         if (nativeTheme.shouldUseDarkColors)
             changeTheme()
     })
