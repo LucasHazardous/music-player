@@ -22,7 +22,10 @@
         "owner": "LucasHazardous",
         "repo": "music-player"
       }
-    ]
+    ],
+    "linux": {
+      "icon": "build/icon.png"
+    }
   },
   "keywords": [
     "electron",
