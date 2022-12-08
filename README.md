@@ -10,9 +10,10 @@ Use the download button to get the latest installer for your platform. Installer
 
 ## Preview
 
-<img width="300" src="./img/example3.png">
+
 <img align="left" width="300" src="./img/example1.png">
 <img align="left" width="300" src="./img/example2.png">
+<img width="300" src="./img/example3.png">
 
 ## Usage
 
