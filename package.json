@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "publish": "electron-builder --win -p always",
-    "build": "electron-builder --win",
+    "publish_win": "electron-builder --win -p always",
+    "publish_linux": "electron-builder --linux -p always",
+    "build": "electron-builder",
     "prepare": "husky install"
   },
   "repository": {
