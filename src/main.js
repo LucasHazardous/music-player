@@ -84,7 +84,7 @@ if (!gotTheLock) {
 			sendStatusToWindow(`Downloaded ${Math.floor(progress.percent)}%`);
 		});
 		autoUpdater.on("update-downloaded", (info) => {
-			sendStatusToWindow("Update downloaded.");
+			sendStatusToWindow("Update downloaded. Restart the app.");
 		});
 	});
 }
