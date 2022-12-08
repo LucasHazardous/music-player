@@ -20,6 +20,8 @@ class Storage {
 
 	static updateInfo = document.getElementById("updateInfo");
 
+	static closeUpdateInfoBtn = document.getElementById("closeUpdateInfoBtn");
+
 	static fastPlaybackRate = false;
 	static playing = false;
 	static loop = false;
