@@ -31,7 +31,7 @@ ipcRenderer.on("refresh", (data) => {
 		});
 
 		fileElement.trueName = file;
-		fileListHolder.appendChild(fileElement);
+		Storage.fileListHolder.appendChild(fileElement);
 		Storage.fileElementList.push(fileElement);
 	}
 
@@ -96,4 +96,4 @@ function playPauseAction() {
 	}
 }
 
-playButton.addEventListener("click", playPauseAction);
+Storage.playButton.addEventListener("click", playPauseAction);

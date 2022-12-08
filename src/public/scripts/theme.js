@@ -6,7 +6,6 @@ ipcRenderer.on("changeTheme", () => {
 	document
 		.querySelectorAll("a")
 		.forEach((paragraph) => paragraph.classList.toggle("dark"));
-	Storage.updateInfo.classList.toggle("dark");
 
 	if (Storage.fileElementList[Storage.currentIndex] != undefined) {
 		Storage.previousSelectedIndex = Storage.currentIndex;

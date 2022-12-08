@@ -27,7 +27,7 @@ const { autoUpdater } = require("electron-updater");
 
 const createWindow = () => {
 	mainWindow = new BrowserWindow({
-		title: "Image Resizer",
+		title: "music-player",
 		width: isDev ? 1000 : 500,
 		height: 600,
 		webPreferences: {
@@ -84,7 +84,7 @@ if (!gotTheLock) {
 			sendStatusToWindow(`Downloaded ${Math.floor(progress.percent)}%`);
 		});
 		autoUpdater.on("update-downloaded", (info) => {
-			sendStatusToWindow("Update downloaded.");
+			sendStatusToWindow("Update downloaded. Restart the app.");
 		});
 	});
 }
