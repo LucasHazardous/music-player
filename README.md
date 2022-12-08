@@ -1,4 +1,4 @@
-<img align="left" height="32" width="32" src="./build/icon.ico">
+<img align="left" height="64" width="64" src="./build/icon.ico">
 
 # music-player
 
