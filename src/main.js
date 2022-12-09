@@ -122,6 +122,21 @@ const menu = [
 			},
 		],
 	},
+	{
+		label: "About",
+		submenu: [
+			{
+				label: `Version ${app.getVersion()}`,
+			},
+			{
+				label: `Github repository`,
+				click: () =>
+					shell.openExternal(
+						"https://github.com/LucasHazardous/music-player"
+					),
+			},
+		],
+	},
 ];
 
 function changeTheme() {
