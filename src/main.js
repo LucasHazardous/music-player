@@ -1,10 +1,17 @@
 const { app, BrowserWindow, Menu, shell, nativeTheme } = require("electron");
-const path = require("path");
+const { autoUpdater } = require("electron-updater");
 const { ipcMain } = require("electron");
+const path = require("path");
 const os = require("os");
 const fs = require("fs");
 
+const isDev = process.env.NODE_ENV === "dev";
+
 const targetPath = path.join(os.homedir(), "music-player");
+let mainWindow;
+const gotTheLock = app.requestSingleInstanceLock();
+let darkMode = false;
+const availableFiles = [];
 
 const ytdlpWrap = require("yt-dlp-wrap").default;
 const ytdlpExecutablePath = path.join(targetPath, "yt-dlp.exe");
@@ -15,17 +22,7 @@ if (!fs.existsSync(ytdlpExecutablePath))
 		.downloadFromGithub(ytdlpExecutablePath)
 		.catch((err) => console.log(err));
 
-const availableFiles = [];
-
-const isDev = process.env.NODE_ENV === "dev";
-
-let mainWindow;
-const gotTheLock = app.requestSingleInstanceLock();
-let darkMode = false;
-
-const { autoUpdater } = require("electron-updater");
-
-const createWindow = () => {
+function createWindow() {
 	mainWindow = new BrowserWindow({
 		title: "music-player",
 		width: isDev ? 1000 : 500,
@@ -49,7 +46,7 @@ const createWindow = () => {
 		.then(() => {
 			if (nativeTheme.shouldUseDarkColors) changeTheme();
 		});
-};
+}
 
 if (!gotTheLock) {
 	app.quit();
@@ -89,6 +86,12 @@ if (!gotTheLock) {
 	});
 }
 
+function sendStatusToWindow(text) {
+	mainWindow.webContents.send("updateMsg", {
+		text,
+	});
+}
+
 const menu = [
 	{
 		label: "File",
@@ -119,31 +122,27 @@ const menu = [
 			},
 		],
 	},
+	{
+		label: "About",
+		submenu: [
+			{
+				label: `Version ${app.getVersion()}`,
+			},
+			{
+				label: `Github repository`,
+				click: () =>
+					shell.openExternal(
+						"https://github.com/LucasHazardous/music-player"
+					),
+			},
+		],
+	},
 ];
-
-function sendStatusToWindow(text) {
-	mainWindow.webContents.send("updateMsg", {
-		text,
-	});
-}
 
 function changeTheme() {
 	darkMode = !darkMode;
 	nativeTheme.themeSource = darkMode ? "dark" : "light";
 	mainWindow.webContents.send("changeTheme");
-}
-
-function loadFiles() {
-	if (!fs.existsSync(targetPath)) fs.mkdirSync(targetPath);
-
-	availableFiles.length = 0;
-	fs.readdirSync(targetPath).forEach((file) => {
-		if (file != "yt-dlp.exe") availableFiles.push(file);
-	});
-
-	mainWindow.webContents.send("refresh", {
-		fileList: availableFiles,
-	});
 }
 
 ipcMain.on("readFile", (e, data) => {
@@ -165,6 +164,19 @@ ipcMain.on("downloadFile", async (e, data) => {
 		}
 	);
 });
+
+function loadFiles() {
+	if (!fs.existsSync(targetPath)) fs.mkdirSync(targetPath);
+
+	availableFiles.length = 0;
+	fs.readdirSync(targetPath).forEach((file) => {
+		if (file != "yt-dlp.exe") availableFiles.push(file);
+	});
+
+	mainWindow.webContents.send("refresh", {
+		fileList: availableFiles,
+	});
+}
 
 app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") app.quit();
