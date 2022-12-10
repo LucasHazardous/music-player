@@ -2,6 +2,10 @@ import { Storage } from "./storage.js";
 
 Storage.downloadBtn.addEventListener("click", downloadFile);
 
+Storage.downloadField.addEventListener("keypress", (e) =>
+	e.key === "Enter" ? downloadFile() : {}
+);
+
 function downloadFile() {
 	Storage.downloadField.value = Storage.downloadField.value.trim();
 	if (Storage.downloadField.value != "") {
