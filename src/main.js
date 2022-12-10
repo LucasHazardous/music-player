@@ -160,7 +160,7 @@ ipcMain.on("downloadFile", async (e, data) => {
 			if (!err) {
 				mainWindow.webContents.send("fileDownloaded");
 				loadFiles();
-			}
+			} else mainWindow.webContents.send("downloadFailed");
 		}
 	);
 });

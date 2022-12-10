@@ -18,7 +18,10 @@ function downloadFile() {
 	Storage.downloadField.value = "";
 }
 
-ipcRenderer.on("fileDownloaded", () => {
+ipcRenderer.on("fileDownloaded", unlockDownloadField);
+ipcRenderer.on("downloadFailed", unlockDownloadField);
+
+function unlockDownloadField() {
 	Storage.downloadField.parentElement.classList.remove("is-loading");
 	Storage.downloadField.disabled = false;
-});
+}
