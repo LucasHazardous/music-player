@@ -65,7 +65,7 @@ body {
 }
 
 .dark-downloadField {
-	background-color: hsl(0, 0%, 21%);
+	background-color: hsl(0, 0%, 21%) !important;
 }
 
 .card-footer-item,
@@ -88,7 +88,7 @@ sup {
 	-webkit-transition: 0.3s;
 	transition: opacity 0.3s;
 	border-radius: 0.2rem;
-	border: 1px solid hsl(171, 100%, 41%);
+	border: 1px solid hsla(0, 0%, 50%, 0.45);
 }
 
 .slider::-webkit-slider-thumb {
