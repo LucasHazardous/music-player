@@ -2,6 +2,10 @@ import { Storage } from "./storage.js";
 
 Storage.downloadBtn.addEventListener("click", downloadFile);
 
+Storage.downloadField.addEventListener("keypress", (e) =>
+	e.key === "Enter" ? downloadFile() : {}
+);
+
 function downloadFile() {
 	Storage.downloadField.value = Storage.downloadField.value.trim();
 	if (Storage.downloadField.value != "") {
@@ -14,7 +18,10 @@ function downloadFile() {
 	Storage.downloadField.value = "";
 }
 
-ipcRenderer.on("fileDownloaded", () => {
+ipcRenderer.on("fileDownloaded", unlockDownloadField);
+ipcRenderer.on("downloadFailed", unlockDownloadField);
+
+function unlockDownloadField() {
 	Storage.downloadField.parentElement.classList.remove("is-loading");
 	Storage.downloadField.disabled = false;
-});
+}
