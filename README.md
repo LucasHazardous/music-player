@@ -10,9 +10,15 @@ Use the download button to get the latest installer for your platform. Installer
 
 ## Preview
 
-<img align="left" width="200" src="./img/example1.png">
-<img align="left" width="200" src="./img/example2.png">
-<img width="200" src="./img/example3.png">
+### Dark theme
+
+<img align="left" width="150" src="./img/example1.png">
+<img width="150" src="./img/example2.png">
+
+### Light theme
+
+<img align="left" width="150" src="./img/example3.png">
+<img width="150" src="./img/example4.png">
 
 ## Usage
 
