@@ -12,13 +12,15 @@ Use the download button to get the latest installer for your platform. Installer
 
 ### Dark theme
 
-<img align="left" width="150" src="./img/example1.png">
-<img width="150" src="./img/example2.png">
+<img align="left" width="300" src="./img/example1.png">
+&nbsp;&nbsp;&nbsp;
+<img width="300" src="./img/example2.png">
 
 ### Light theme
 
-<img align="left" width="150" src="./img/example3.png">
-<img width="150" src="./img/example4.png">
+<img align="left" width="300" src="./img/example3.png">
+&nbsp;&nbsp;&nbsp;
+<img width="300" src="./img/example4.png">
 
 ## Usage
 
