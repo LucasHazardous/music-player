@@ -41,6 +41,7 @@ ipcRenderer.on("refresh", (data) => {
 
 function playFile(file) {
 	URL.revokeObjectURL(Storage.audioElement.getAttribute("src"));
+	Storage.audioElement.setAttribute("src", "");
 
 	Storage.currentNameHolder.innerText = file.replace(
 		new RegExp(/\[.+\]\.[a-zA-Z0-9]+/, "g"),
@@ -52,22 +53,25 @@ function playFile(file) {
 	});
 }
 
-Storage.leftBtn.addEventListener("click", () =>
+Storage.leftBtn.addEventListener("click", playPrevious);
+
+Storage.rightBtn.addEventListener("click", playNext);
+
+Storage.audioElement.addEventListener("pause", () => {
+	if (Storage.playing && !Storage.loop) playNext();
+});
+
+function playNext() {
+	selectFile((Storage.currentIndex + 1) % Storage.fileElementList.length);
+}
+
+function playPrevious() {
 	selectFile(
 		Storage.currentIndex - 1 < 0
 			? Storage.fileElementList.length - 1
 			: Storage.currentIndex - 1
-	)
-);
-
-Storage.rightBtn.addEventListener("click", () =>
-	selectFile((Storage.currentIndex + 1) % Storage.fileElementList.length)
-);
-
-Storage.audioElement.addEventListener("pause", () => {
-	if (Storage.playing && !Storage.loop)
-		selectFile((Storage.currentIndex + 1) % Storage.fileElementList.length);
-});
+	);
+}
 
 ipcRenderer.on("audioData", (data) => {
 	const blob = new Blob([data.buffer], {
@@ -88,6 +92,9 @@ ipcRenderer.on("audioData", (data) => {
 function playPauseAction() {
 	Storage.playing = !Storage.playing;
 	if (Storage.playing) {
+		if (Storage.currentIndex === -1 && Storage.fileElementList.length > 0)
+			playNext();
+
 		Storage.playButton.innerText = "〡〡";
 		Storage.audioElement.play();
 	} else {

@@ -146,7 +146,10 @@ function changeTheme() {
 }
 
 ipcMain.on("readFile", (e, data) => {
-	const buffer = fs.readFileSync(path.join(targetPath, data.file));
+	const targetFile = path.join(targetPath, data.file);
+	if (!fs.existsSync(targetFile)) return loadFiles();
+
+	const buffer = fs.readFileSync(targetFile);
 
 	mainWindow.webContents.send("audioData", {
 		buffer: buffer,
