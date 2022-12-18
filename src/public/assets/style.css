@@ -39,7 +39,7 @@ body {
 }
 
 .dark.panel-block:not(:last-child) {
-	border-bottom: 1px solid black !important;
+	border-bottom: 1px solid hsl(0, 0%, 26%) !important;
 }
 
 .card-footer {
@@ -47,7 +47,7 @@ body {
 }
 
 .dark-right-border {
-	border-right: 1px solid black !important;
+	border-right: 1px solid hsl(0, 0%, 26%) !important;
 }
 
 .dark-control-nav {
@@ -55,9 +55,12 @@ body {
 	border: 1px solid rgba(255, 255, 255, 0) !important;
 }
 
-#fileListHolder .panel-block.dark:hover,
 .dark-background {
-	background-color: black !important;
+	background-color: hsl(171, 20%, 21%) !important;
+}
+
+#fileListHolder .panel-block.dark:hover {
+	background-color: hsl(0, 0%, 26%) !important;
 }
 
 .dark-panel {

@@ -3,10 +3,16 @@ import { Storage } from "./storage.js";
 Storage.speedChangeBtn.addEventListener("click", () => {
 	Storage.fastPlaybackRate = !Storage.fastPlaybackRate;
 	if (Storage.fastPlaybackRate) {
-		Storage.speedChangeBtn.classList.add("has-background-primary-light");
+		Storage.speedChangeBtn.classList.add(
+			Storage.darkTheme
+				? "dark-background"
+				: "has-background-primary-light"
+		);
 		Storage.audioElement.playbackRate = 1.5;
 	} else {
-		Storage.speedChangeBtn.classList.remove("has-background-primary-light");
+		Storage.speedChangeBtn.classList.remove(
+			...["has-background-primary-light", "dark-background"]
+		);
 		Storage.audioElement.playbackRate = 1;
 	}
 });
@@ -17,8 +23,15 @@ function loopChange() {
 	Storage.loop = !Storage.loop;
 	Storage.audioElement.loop = Storage.loop;
 	if (Storage.loop)
-		Storage.loopBtn.classList.add("has-background-primary-light");
-	else Storage.loopBtn.classList.remove("has-background-primary-light");
+		Storage.loopBtn.classList.add(
+			Storage.darkTheme
+				? "dark-background"
+				: "has-background-primary-light"
+		);
+	else
+		Storage.loopBtn.classList.remove(
+			...["has-background-primary-light", "dark-background"]
+		);
 }
 
 Storage.volumeChanger.addEventListener(
