@@ -60,7 +60,7 @@ body {
 }
 
 #fileListHolder .panel-block.dark:hover {
-	background-color: hsl(0, 0%, 26%) !important;
+	background-color: hsl(0, 0%, 26%);
 }
 
 .dark-panel {
