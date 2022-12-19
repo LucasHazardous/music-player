@@ -28,6 +28,13 @@ We use github to host code, to track issues and feature requests, as well as acc
 -   camelCase for variables' names
 -   global variables are placed on top of a file
 
+## How to contribute?
+
+1.  Visit currently open issues
+2.  Dicuss/create new issue, then implement fixes/features in your personal fork of this repository
+3.  Open a pull request to the **dev** branch
+4.  Wait for a review
+
 ## Becoming a maintainer
 
 To become a maintainer you should be familiar with technologies used in this project and its coding style.
