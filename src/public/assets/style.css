@@ -10,6 +10,11 @@ body {
 	display: none;
 }
 
+::selection {
+	color: white;
+	background: hsl(171, 100%, 41%);
+}
+
 #controls {
 	position: sticky;
 	top: 0.5rem;
