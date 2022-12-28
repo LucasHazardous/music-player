@@ -23,5 +23,9 @@ ipcRenderer.on("downloadFailed", unlockDownloadField);
 
 function unlockDownloadField() {
 	Storage.downloadField.parentElement.classList.remove("is-loading");
-	Storage.downloadField.disabled = false;
+	Storage.downloadField.classList.add("download-rejection");
+	setTimeout(() => {
+		Storage.downloadField.classList.remove("download-rejection");
+		Storage.downloadField.disabled = false;
+	}, 500);
 }
