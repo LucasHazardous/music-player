@@ -10,6 +10,11 @@ body {
 	display: none;
 }
 
+::selection {
+	color: white;
+	background: hsl(171, 100%, 41%);
+}
+
 #controls {
 	position: sticky;
 	top: 0.5rem;
@@ -31,6 +36,34 @@ body {
 	backdrop-filter: blur(5px);
 	-webkit-backdrop-filter: blur(5px);
 	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.download-rejection {
+	animation-name: rejection;
+	animation-duration: 500ms;
+}
+
+@keyframes rejection {
+	0% {
+		border: 1px solid hsl(348, 100%, 61%);
+		transform: translateX(-4px);
+	}
+	25% {
+		border: 1px solid hsl(348, 100%, 61%);
+		transform: translateX(4px);
+	}
+	50% {
+		border: 1px solid hsl(348, 100%, 61%);
+		transform: translateX(-2px);
+	}
+	75% {
+		border: 1px solid hsl(348, 100%, 61%);
+		transform: translateX(1px);
+	}
+	100% {
+		border: 1px solid hsl(171, 100%, 41%);
+		transform: translateX(0px);
+	}
 }
 
 .dark {
