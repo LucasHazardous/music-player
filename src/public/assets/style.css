@@ -22,9 +22,8 @@ body {
 }
 
 #nav {
-	position: fixed;
+	position: sticky;
 	bottom: 0.5rem;
-	width: 94%;
 }
 
 #controls,

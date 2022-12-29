@@ -19,9 +19,15 @@ function downloadFile() {
 }
 
 ipcRenderer.on("fileDownloaded", unlockDownloadField);
-ipcRenderer.on("downloadFailed", unlockDownloadField);
 
 function unlockDownloadField() {
+	Storage.downloadField.parentElement.classList.remove("is-loading");
+	Storage.downloadField.disabled = false;
+}
+
+ipcRenderer.on("downloadFailed", rejectDownloadField);
+
+function rejectDownloadField() {
 	Storage.downloadField.parentElement.classList.remove("is-loading");
 	Storage.downloadField.classList.add("download-rejection");
 	setTimeout(() => {
