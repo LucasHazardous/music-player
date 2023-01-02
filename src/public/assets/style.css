@@ -67,7 +67,6 @@ body {
 
 .dark {
 	background-color: hsl(0, 0%, 21%);
-	color: hsl(171, 100%, 41%) !important;
 }
 
 .dark.panel-block:not(:last-child) {
@@ -83,8 +82,9 @@ body {
 }
 
 .dark-control-nav {
-	box-shadow: 0 4px 30px rgba(255, 255, 255, 0.25) !important;
-	border: 1px solid rgba(255, 255, 255, 0) !important;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
+	border: 1px solid rgba(255, 255, 255, 0.02) !important;
+	background: rgba(255, 255, 255, 0.04) !important;
 }
 
 .dark-background {
@@ -105,7 +105,8 @@ body {
 
 .card-footer-item,
 #downloadField::placeholder,
-#downloadField {
+#downloadField,
+a {
 	color: hsl(171, 100%, 41%) !important;
 }
 
