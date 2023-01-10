@@ -1,9 +1,15 @@
 import { Storage } from "./storage.js";
 
 function selectFile(target) {
-	Storage.previousSelectedIndex = Storage.currentIndex;
-	Storage.currentIndex = target;
-	playFile(Storage.fileElementList[Storage.currentIndex].trueName);
+	const targetFile = Storage.fileElementList[target].trueName;
+
+	if (!Storage.blocked.has(targetFile) && Storage.currentIndex != target) {
+		Storage.previousSelectedIndex = Storage.currentIndex;
+		Storage.currentIndex = target;
+		playFile(targetFile);
+		return true;
+	}
+	return false;
 }
 
 ipcRenderer.on("refresh", (data) => {
@@ -21,13 +27,22 @@ ipcRenderer.on("refresh", (data) => {
 		const fileElement = document.createElement("a");
 		fileElement.classList.add(...["panel-block", "is-active"]);
 		if (Storage.darkTheme) fileElement.classList.add("dark");
+		if (Storage.blocked.has(file)) fileElement.classList.add("blocked");
 		fileElement.innerText = file;
 
 		fileElement.addEventListener("click", () => {
-			Storage.previousSelectedIndex = Storage.currentIndex;
-			Storage.currentIndex = i;
+			if (!Storage.blocked.has(file)) {
+				Storage.previousSelectedIndex = Storage.currentIndex;
+				Storage.currentIndex = i;
 
-			playFile(file);
+				playFile(file);
+			}
+		});
+
+		fileElement.addEventListener("contextmenu", () => {
+			if (Storage.blocked.has(file)) Storage.blocked.delete(file);
+			else Storage.blocked.add(file);
+			fileElement.classList.toggle("blocked");
 		});
 
 		fileElement.trueName = file;
@@ -62,15 +77,19 @@ Storage.audioElement.addEventListener("pause", () => {
 });
 
 function playNext() {
-	selectFile((Storage.currentIndex + 1) % Storage.fileElementList.length);
+	let i = Storage.currentIndex;
+	do {
+		i = ++i % Storage.fileElementList.length;
+		if (selectFile(i)) break;
+	} while (i != Storage.currentIndex);
 }
 
 function playPrevious() {
-	selectFile(
-		Storage.currentIndex - 1 < 0
-			? Storage.fileElementList.length - 1
-			: Storage.currentIndex - 1
-	);
+	let i = Storage.currentIndex;
+	do {
+		i = i - 1 < 0 ? Storage.fileElementList.length - 1 : i - 1;
+		if (selectFile(i)) break;
+	} while (i != Storage.currentIndex);
 }
 
 ipcRenderer.on("audioData", (data) => {

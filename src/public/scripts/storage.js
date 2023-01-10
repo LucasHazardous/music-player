@@ -30,6 +30,8 @@ class Storage {
 	static previousSelectedIndex = -1;
 	static darkTheme = false;
 
+	static blocked = new Set();
+
 	static lightUpCurrentElement() {
 		if (Storage.fileElementList[Storage.previousSelectedIndex] != undefined)
 			Storage.fileElementList[
