@@ -136,3 +136,11 @@ sup {
 	cursor: pointer;
 	border-radius: 0.2rem;
 }
+
+.dark.blocked {
+	color: hsl(0, 0%, 26%) !important;
+}
+
+.blocked {
+	color: hsl(0, 0%, 80%) !important;
+}
