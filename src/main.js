@@ -130,6 +130,10 @@ const menu = [
 				label: "Unblock all",
 				click: () => mainWindow.webContents.send("unblockAll"),
 			},
+			{
+				label: "Block all",
+				click: () => mainWindow.webContents.send("blockAll"),
+			},
 		],
 	},
 	{
