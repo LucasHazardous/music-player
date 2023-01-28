@@ -54,6 +54,15 @@ ipcRenderer.on("refresh", (data) => {
 		Storage.lightUpCurrentElement();
 });
 
+ipcRenderer.on("unblockAll", () => {
+	if (Storage.blocked.size == 0) return;
+
+	Storage.blocked = new Set();
+	Storage.fileElementList.forEach((element) =>
+		element.classList.remove("blocked")
+	);
+});
+
 function playFile(file) {
 	URL.revokeObjectURL(Storage.audioElement.getAttribute("src"));
 	Storage.audioElement.setAttribute("src", "");

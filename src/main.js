@@ -124,6 +124,15 @@ const menu = [
 		],
 	},
 	{
+		label: "Block",
+		submenu: [
+			{
+				label: "Unblock all",
+				click: () => mainWindow.webContents.send("unblockAll"),
+			},
+		],
+	},
+	{
 		label: "About",
 		submenu: [
 			{
