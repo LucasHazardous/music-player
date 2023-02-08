@@ -32,7 +32,7 @@ function createWindow() {
 			contextIsolation: true,
 		},
 		resizable: false,
-		icon: path.join(__dirname, "../build/icon.ico"),
+		icon: path.join(__dirname, "../build/icon.png"),
 	});
 
 	const mainMenu = Menu.buildFromTemplate(menu);
