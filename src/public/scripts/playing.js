@@ -78,6 +78,15 @@ ipcRenderer.on("saveBlocked", () => {
 	});
 });
 
+ipcRenderer.on("initialBlockedLoad", (data) => {
+	Storage.blocked = data.blocked;
+	Storage.fileElementList.forEach((element) =>
+		Storage.blocked.has(element.trueName)
+			? element.classList.add("blocked")
+			: null
+	);
+});
+
 function playFile(file) {
 	URL.revokeObjectURL(Storage.audioElement.getAttribute("src"));
 	Storage.audioElement.setAttribute("src", "");
