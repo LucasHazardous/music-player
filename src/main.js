@@ -140,6 +140,13 @@ const menu = [
 				label: "Save blocked",
 				click: () => mainWindow.webContents.send("saveBlocked"),
 			},
+			{
+				label: "Clear saved blocked",
+				click: () =>
+					fs.existsSync(savedBlockedFile)
+						? fs.unlinkSync(savedBlockedFile)
+						: null,
+			},
 		],
 	},
 	{
