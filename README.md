@@ -47,6 +47,16 @@ To get the latest features and bug-fixes select **Files** button in the menu and
 
 You can quit the app with <kbd>CTRL/CMD+W</kbd>.
 
+### Blocking
+
+music-player currently does not provide any features that would allow playlist creation but what it does provide is effective blocking system. When an entry on the list is right clicked its text turns grey, until unblocking upon clicking entry will not be detected in automatic previous/next searching and will not respond to direct clicks. This powerful feature allows you to compose an appropriate playlist by disabling currently unwanted entries.
+_Blocked_ menu section provides you the following options:
+
+-   Unblock all - unblocks all files
+-   Block all - blocks all files (this can be used when multiple entries are present and only a handful of them is going to be used)
+-   Save blocked - saves currently blocked files to a file (in the same directory in which music files are stored) from which names of entries to block will be retrieved on the next window start
+-   Clear saved blocked - removes the file with a list of blocked files
+
 ---
 
 ## Build
