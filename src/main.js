@@ -8,6 +8,7 @@ const fs = require("fs");
 const isDev = process.env.NODE_ENV === "dev";
 
 const targetPath = path.join(os.homedir(), "music-player");
+const savedBlockedFile = path.join(targetPath, ".blocked");
 let mainWindow;
 const gotTheLock = app.requestSingleInstanceLock();
 let darkMode = false;
@@ -32,7 +33,7 @@ function createWindow() {
 			contextIsolation: true,
 		},
 		resizable: false,
-		icon: path.join(__dirname, "../build/icon.ico"),
+		icon: path.join(__dirname, "../build/icon.png"),
 	});
 
 	const mainMenu = Menu.buildFromTemplate(menu);
@@ -43,6 +44,7 @@ function createWindow() {
 	mainWindow
 		.loadFile(path.join(__dirname, "./public/pages/index.html"))
 		.then(loadFiles)
+		.then(loadBlocked)
 		.then(() => {
 			if (nativeTheme.shouldUseDarkColors) changeTheme();
 		});
@@ -124,6 +126,30 @@ const menu = [
 		],
 	},
 	{
+		label: "Block",
+		submenu: [
+			{
+				label: "Unblock all",
+				click: () => mainWindow.webContents.send("unblockAll"),
+			},
+			{
+				label: "Block all",
+				click: () => mainWindow.webContents.send("blockAll"),
+			},
+			{
+				label: "Save blocked",
+				click: () => mainWindow.webContents.send("saveBlocked"),
+			},
+			{
+				label: "Clear saved blocked",
+				click: () =>
+					fs.existsSync(savedBlockedFile)
+						? fs.unlinkSync(savedBlockedFile)
+						: null,
+			},
+		],
+	},
+	{
 		label: "About",
 		submenu: [
 			{
@@ -169,12 +195,26 @@ ipcMain.on("downloadFile", async (e, data) => {
 	);
 });
 
+ipcMain.on("blockedList", async (e, data) => {
+	fs.writeFileSync(savedBlockedFile, Array.from(data.files).join("\n"));
+});
+
+function loadBlocked() {
+	if (fs.existsSync(savedBlockedFile))
+		mainWindow.webContents.send("initialBlockedLoad", {
+			blocked: new Set(
+				fs.readFileSync(savedBlockedFile, "utf8").split("\n")
+			),
+		});
+}
+
 function loadFiles() {
 	if (!fs.existsSync(targetPath)) fs.mkdirSync(targetPath);
 
 	availableFiles.length = 0;
 	fs.readdirSync(targetPath).forEach((file) => {
-		if (file != "yt-dlp.exe") availableFiles.push(file);
+		if (file != "yt-dlp.exe" && file != ".blocked")
+			availableFiles.push(file);
 	});
 
 	mainWindow.webContents.send("refresh", {

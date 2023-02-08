@@ -13,7 +13,8 @@
 
 <body class="p-4">
     <audio src="" id="audioElement" class="is-hidden"></audio>
-    <h1 id="updateInfo" class="notification is-primary is-hidden">Update info<button class="delete is-hidden" aria-label="delete" id="closeUpdateInfoBtn"></button></h1>
+    <h1 id="updateInfo" class="notification is-primary is-hidden">Update info<button class="delete is-hidden"
+            aria-label="delete" id="closeUpdateInfoBtn"></button></h1>
     <div id="controls" class="p-3 mb-3">
         <input type="range" id="volumeChanger" class="slider mb-3" min="0" max="100" value="100">
 
@@ -36,7 +37,7 @@
             </div>
             <button class="button is-primary" id="downloadBtn">Download</button>
         </div>
-        
+
         <div id="fileListHolder"></div>
     </div>
     <div id="nav">
@@ -52,8 +53,10 @@
 </body>
 <script type="module" src="../scripts/storage.js"></script>
 <script type="module" src="../scripts/playing.js"></script>
+<script type="module" src="../scripts/blocked.js"></script>
 <script type="module" src="../scripts/musicSettings.js"></script>
 <script type="module" src="../scripts/theme.js"></script>
 <script type="module" src="../scripts/download.js"></script>
 <script type="module" src="../scripts/update.js"></script>
+
 </html>
