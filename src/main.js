@@ -8,6 +8,7 @@ const fs = require("fs");
 const isDev = process.env.NODE_ENV === "dev";
 
 const targetPath = path.join(os.homedir(), "music-player");
+const savedBlockedFile = path.join(targetPath, ".blocked");
 let mainWindow;
 const gotTheLock = app.requestSingleInstanceLock();
 let darkMode = false;
@@ -43,6 +44,7 @@ function createWindow() {
 	mainWindow
 		.loadFile(path.join(__dirname, "./public/pages/index.html"))
 		.then(loadFiles)
+		.then(loadBlocked)
 		.then(() => {
 			if (nativeTheme.shouldUseDarkColors) changeTheme();
 		});
@@ -182,12 +184,22 @@ ipcMain.on("downloadFile", async (e, data) => {
 	);
 });
 
+function loadBlocked() {
+	if (fs.existsSync(savedBlockedFile))
+		mainWindow.webContents.send("initialBlockedLoad", {
+			blocked: new Set(
+				fs.readFileSync(savedBlockedFile, "utf8").split("\n")
+			),
+		});
+}
+
 function loadFiles() {
 	if (!fs.existsSync(targetPath)) fs.mkdirSync(targetPath);
 
 	availableFiles.length = 0;
 	fs.readdirSync(targetPath).forEach((file) => {
-		if (file != "yt-dlp.exe") availableFiles.push(file);
+		if (file != "yt-dlp.exe" && file != ".blocked")
+			availableFiles.push(file);
 	});
 
 	mainWindow.webContents.send("refresh", {
