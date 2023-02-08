@@ -136,6 +136,10 @@ const menu = [
 				label: "Block all",
 				click: () => mainWindow.webContents.send("blockAll"),
 			},
+			{
+				label: "Save blocked",
+				click: () => mainWindow.webContents.send("saveBlocked"),
+			},
 		],
 	},
 	{
