@@ -79,12 +79,13 @@ ipcRenderer.on("saveBlocked", () => {
 });
 
 ipcRenderer.on("initialBlockedLoad", (data) => {
-	Storage.blocked = data.blocked;
-	Storage.fileElementList.forEach((element) =>
-		Storage.blocked.has(element.trueName)
-			? element.classList.add("blocked")
-			: null
-	);
+	Storage.blocked = new Set();
+	Storage.fileElementList.forEach((element) => {
+		if (data.blocked.has(element.trueName)) {
+			Storage.blocked.add(element.trueName);
+			element.classList.add("blocked");
+		}
+	});
 });
 
 function playFile(file) {
