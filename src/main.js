@@ -188,6 +188,10 @@ ipcMain.on("downloadFile", async (e, data) => {
 	);
 });
 
+ipcMain.on("blockedList", async (e, data) => {
+	fs.writeFileSync(savedBlockedFile, Array.from(data.files).join("\n"));
+});
+
 function loadBlocked() {
 	if (fs.existsSync(savedBlockedFile))
 		mainWindow.webContents.send("initialBlockedLoad", {
