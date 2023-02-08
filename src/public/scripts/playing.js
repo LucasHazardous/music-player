@@ -111,6 +111,8 @@ Storage.audioElement.addEventListener("pause", () => {
 });
 
 function playNext() {
+	if (Storage.blocked.size === Storage.fileElementList.length) return;
+
 	let i = Storage.currentIndex;
 	do {
 		i = ++i % Storage.fileElementList.length;
@@ -119,6 +121,8 @@ function playNext() {
 }
 
 function playPrevious() {
+	if (Storage.blocked.size === Storage.fileElementList.length) return;
+
 	let i = Storage.currentIndex;
 	do {
 		i = i - 1 < 0 ? Storage.fileElementList.length - 1 : i - 1;
