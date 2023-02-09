@@ -24,10 +24,11 @@
       }
     ],
     "linux": {
-      "icon": "build/icon.png",
+      "icon": "src/public/assets/icon.png",
       "target": [
         "AppImage"
-      ]
+      ],
+      "category": "audio"
     }
   },
   "keywords": [
