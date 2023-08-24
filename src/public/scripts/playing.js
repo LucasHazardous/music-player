@@ -119,8 +119,10 @@ function playPauseAction() {
 		if (Storage.currentIndex === -1 && Storage.fileElementList.length > 0)
 			playNext();
 
-		Storage.playButton.innerText = "〡〡";
-		Storage.audioElement.play();
+		if(Storage.currentIndex !== -1) {
+			Storage.playButton.innerText = "〡〡";
+			Storage.audioElement.play();
+		}
 	} else {
 		Storage.playButton.innerText = "▷";
 		Storage.audioElement.pause();
