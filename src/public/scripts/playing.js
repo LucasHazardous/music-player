@@ -73,7 +73,8 @@ Storage.leftBtn.addEventListener("click", playPrevious);
 Storage.rightBtn.addEventListener("click", playNext);
 
 Storage.audioElement.addEventListener("pause", () => {
-	if (Storage.playing && !Storage.loop) playNext();
+	if (Storage.playing && !Storage.loop && !Storage.firstLoad) playNext();
+	if(Storage.firstLoad) Storage.firstLoad = false;
 });
 
 function playNext() {
