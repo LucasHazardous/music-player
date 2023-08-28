@@ -24,7 +24,7 @@ Use the download button to get the latest installer for your platform. If you al
 
 Press <kbd>CTRL/CMD+F</kbd> to reveal directory in which your music files will be stored. There should be also a file called [**yt-dlp.exe**](https://github.com/yt-dlp/yt-dlp) - **do not remove it**. It's also an open source project and it's responsible for downloading music from YouTube.
 
-To get some music simply move some music files to the directory or paste a link to a YouTube music video and click download.
+To get some music simply move some music files to the directory or paste a link to a music link (ex. YouTube video link, SoundCloud music link, direct link to some mp3, etc.) and click download.
 
 -   If the music doesn't download remove yt-dlp.exe, restart the app wait for some time until its icon appears in a file explorer and try again.
 -   If the music doesn't appear refresh the file list with <kbd>CTRL/CMD+R</kbd>.
