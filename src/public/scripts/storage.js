@@ -30,8 +30,6 @@ class Storage {
 	static previousSelectedIndex = -1;
 	static darkTheme = false;
 
-	static firstLoad = true;
-
 	static blocked = new Set();
 
 	static lightUpCurrentElement() {
