@@ -1,6 +1,6 @@
 {
   "name": "music-player",
-  "version": "2.12.4",
+  "version": "2.12.5",
   "description": "Desktop Electron app for playing and downloading music.",
   "main": "./src/main.js",
   "scripts": {
