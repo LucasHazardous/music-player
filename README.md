@@ -4,9 +4,17 @@
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/LucasHazardous/music-player?color=00d1b2&label=download%20latest&style=for-the-badge)](https://github.com/LucasHazardous/music-player/releases/latest)
 
+> If this software appeared on its own, you have malware on your computer. Contact a computer specialist as soon as possible.
+
 ## How to run
 
 Use the download button to get the latest installer for your platform. If you already have any version installed, to get the newest release click the _Check for updates_ option in the file submenu.
+
+## Controversies
+
+I have received numerous reports of individuals randomly receving music-player software and I want to address that.
+At this point its distribution got out of control with all the suspicious software websites hosting **potentially modified versions of it and possibly bundling it with other malware**. The only valid source to download this program is this Github page, where the executables are built directly by Github on its servers. 
+MIT license grants anyone the freedom to do whatever they want with this software. I do not hold any responsibility for it.
 
 ## Preview
 
